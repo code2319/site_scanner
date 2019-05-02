@@ -1,5 +1,6 @@
 import io
 import os
+import re
 import sys
 import json
 import socket
@@ -93,10 +94,16 @@ def analyze_json(fname):
 
 
 if __name__ == "__main__":
-    jfname = "whois.json"
-    url = input("Введите адрес сайта (например: https://pypi.org/): ")
-    site_ip = (get_ip_by_url(url))
-    get_robots_txt(url)
-    check_ports(site_ip)
-    get_whois(site_ip, jfname)
-    analyze_json(jfname)
+    while True:
+        jf = "whois.json"
+        url = input("Введите адрес сайта (например: https://pypi.org/): ")
+        if re.match(r"^http.?://", url):
+            site_ip = (get_ip_by_url(url))
+            get_robots_txt(url)
+            check_ports(site_ip)
+            get_whois(site_ip, jf)
+            analyze_json(jf)
+            break
+        else:
+            print("Адрес должен начинаться с \"http://\" или \"https://\"")
+            continue
